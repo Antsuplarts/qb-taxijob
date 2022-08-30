@@ -5,6 +5,16 @@ local meterIsOpen = false
 local meterActive = false
 local lastLocation = nil
 local mouseActive = false
+local JobActive = false
+local lvl8 = false
+local lvl7 = false
+local lvl6 = false
+local lvl5 = false
+local lvl4 = false
+local lvl3 = false
+local lvl2 = false
+local lvl1 = false
+local lvl0 = false
 
 local PlayerJob = {}
 
@@ -13,7 +23,6 @@ local isInsidePickupZone = false
 local isInsideDropZone = false
 local Notified = false
 local isPlayerInsideZone = false
-
 
 local meterData = {
     fareAmount = 6,
@@ -153,9 +162,141 @@ local function GetDeliveryLocation()
                             SendNUIMessage({
                                 action = "resetMeter"
                             })
-                            QBCore.Functions.Notify(Lang:t("info.person_was_dropped_off"), 'success')
+                            if Config.NotifyType == 'qb' then
+                                QBCore.Functions.Notify(Lang:t("info.person_was_dropped_off"), 'success')
+                            elseif Config.NotifyType == "okok" then
+                                exports['okokNotify']:Alert("CLIENT DROPPED", Lang:t("info.person_was_dropped_off"), 3500, "info")
+                            end 
                             if NpcData.DeliveryBlip ~= nil then
                                 RemoveBlip(NpcData.DeliveryBlip)
+                            end
+                            Wait(200)
+                            if Config.mzskills then 
+                                local BetterXP = math.random(Config.DriverXPlow, Config.DriverXPhigh)
+                                local xpmultiple = math.random(1, 4)
+                                if xpmultiple >= 3 then
+                                    chance = BetterXP
+                                elseif xpmultiple < 3 then
+                                    chance = Config.DriverXPlow
+                                end
+                                exports["mz-skills"]:UpdateSkill("Driving", chance) 
+                                Wait(1000)
+                                if Config.BonusChance >= math.random(1, 100) then
+                                    --Skill check call for config.menu prices on items  
+                                    exports["mz-skills"]:CheckSkill("Driving", 12800, function(hasskill)
+                                        if hasskill then
+                                            lvl8 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 6400, function(hasskill)
+                                        if hasskill then
+                                            lvl7 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 3200, function(hasskill)
+                                        if hasskill then
+                                            lvl6 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 1600, function(hasskill)
+                                        if hasskill then
+                                            lvl5 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 800, function(hasskill)
+                                        if hasskill then
+                                            lvl4 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 400, function(hasskill)
+                                        if hasskill then
+                                            lvl3 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 200, function(hasskill)
+                                        if hasskill then
+                                            lvl2 = true
+                                        end
+                                    end)
+                                    exports["mz-skills"]:CheckSkill("Driving", 0, function(hasskill)
+                                        if hasskill then
+                                            lvl1 = true
+                                        end
+                                    end)
+                                    if lvl8 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel8')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Best service I have had, take my money!', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", "Best service I have had, take my money!", 3500, "info")
+                                        end 
+                                        lvl8 = false
+                                    elseif lvl7 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel7')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('You could get away from law enforcement all day with driving like that!', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'You could get away from law enforcement all day with driving like that!', 3500, "info")
+                                        end 
+                                        lvl7 = false
+                                    elseif lvl6 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel6')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Hey, can I grab your number? You got me here quick smart!', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'Hey, can I grab your number? You got me here quick smart!', 3500, "info")
+                                        end 
+                                        lvl6 = false
+                                    elseif lvl5 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel5')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Hey, can I grab your number? You got me here quick smart!', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'Hey, can I grab your number? You got me here quick smart!', 3500, "info")
+                                        end 
+                                        lvl5 = false
+                                    elseif lvl4 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel4')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Hey I appreciate that, thank you! Take something extra please...', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'Hey I appreciate that, thank you! Take something extra please...', 3500, "info")
+                                        end 
+                                        lvl4 = false
+                                    elseif lvl3 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel3')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Hey I appreciate that, thank you! Take something extra please...', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'Hey I appreciate that, thank you! Take something extra please...', 3500, "info")
+                                        end 
+                                        lvl3 = false
+                                    elseif lvl2 == true then
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel2')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Nice driving, thank you! Here is a small tip...', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'Nice driving, thank you! Here is a small tip...', 3500, "info")
+                                        end 
+                                        lvl2 = false
+                                    elseif lvl1 == true then 
+                                        TriggerServerEvent('qb-taxijob:client:NPCBonusLevel1')
+                                        Wait(1500)
+                                        if Config.NotifyType == 'qb' then
+                                            QBCore.Functions.Notify('Nice driving, thank you! Here is a small tip...', "info", 3500)
+                                        elseif Config.NotifyType == "okok" then
+                                            exports['okokNotify']:Alert("TIP", 'Nice driving, thank you! Here is a small tip...', 3500, "info")
+                                        end 
+                                        lvl1 = false
+                                    end
+                                end
                             end
                             local RemovePed = function(p)
                                 SetTimeout(60000, function()
@@ -296,10 +437,18 @@ RegisterNetEvent("qb-taxi:client:TakeVehicle", function(data)
                 SetVehicleEngineOn(veh, true, true)
             end, data.model, coords, true)
         else
-            QBCore.Functions.Notify(Lang:t("info.no_spawn_point"), "error")
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify(Lang:t("info.no_spawn_point"), "error")
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("NO PLACE FOR CAR", Lang:t("info.no_spawn_point"), 3500, "error")
+            end 
         end
     else
-        QBCore.Functions.Notify(Lang:t("info.no_spawn_point"), 'error')
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t("info.no_spawn_point"), "error")
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NO PLACE FOR CAR", Lang:t("info.no_spawn_point"), 3500, "error")
+        end 
         return
     end
 end)
@@ -308,17 +457,24 @@ function closeMenuFull()
     exports['qb-menu']:closeMenu()
 end
 
+RegisterNetEvent("qb-taxi:client:Cooldown", function()
+    JobActive = true 
+    Wait(60000)
+    JobActive = false
+end)
+
+
 -- Events
 RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
     if whitelistedVehicle() then
         if not NpcData.Active then
+            TriggerEvent('qb-taxi:client:Cooldown') 
             NpcData.CurrentNpc = math.random(1, #Config.NPCLocations.TakeLocations)
             if NpcData.LastNpc ~= nil then
                 while NpcData.LastNpc ~= NpcData.CurrentNpc do
                     NpcData.CurrentNpc = math.random(1, #Config.NPCLocations.TakeLocations)
                 end
             end
-
             local Gender = math.random(1, #Config.NpcSkins)
             local PedSkin = math.random(1, #Config.NpcSkins[Gender])
             local model = GetHashKey(Config.NpcSkins[Gender][PedSkin])
@@ -332,80 +488,86 @@ RegisterNetEvent('qb-taxi:client:DoTaxiNpc', function()
             if NpcData.NpcBlip ~= nil then
                 RemoveBlip(NpcData.NpcBlip)
             end
-            QBCore.Functions.Notify(Lang:t("info.npc_on_gps"), 'success')
-
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify(Lang:t("info.npc_on_gps"), 'success')
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("DESTINATION SET", Lang:t("info.npc_on_gps"), 3500, "success")
+            end 
            -- added checks to disable distance checking if polyzone option is used
             if Config.UseTarget then
                 createNpcPickUpLocation()
             end
-
             NpcData.NpcBlip = AddBlipForCoord(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z)
             SetBlipColour(NpcData.NpcBlip, 3)
             SetBlipRoute(NpcData.NpcBlip, true)
             SetBlipRouteColour(NpcData.NpcBlip, 3)
             NpcData.LastNpc = NpcData.CurrentNpc
             NpcData.Active = true
-
             -- added checks to disable distance checking if polyzone option is used
-           if not Config.UseTarget then
-            CreateThread(function()
-                while not NpcData.NpcTaken do
+            if not Config.UseTarget then
+                CreateThread(function()
+                    while not NpcData.NpcTaken do
+                        local ped = PlayerPedId()
+                        local pos = GetEntityCoords(ped)
+                        local dist = #(pos - vector3(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z))
+                        if dist < 20 then
+                            DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                            if dist < 5 then
+                                DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, Lang:t("info.call_npc"))
+                                if IsControlJustPressed(0, 38) then
+                                    local veh = GetVehiclePedIsIn(ped, 0)
+                                    local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
 
-                    local ped = PlayerPedId()
-                    local pos = GetEntityCoords(ped)
-                    local dist = #(pos - vector3(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z))
-
-                    if dist < 20 then
-                        DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
-
-                        if dist < 5 then
-                            DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, Lang:t("info.call_npc"))
-                            if IsControlJustPressed(0, 38) then
-                                local veh = GetVehiclePedIsIn(ped, 0)
-                                local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(veh)
-
-                                for i=maxSeats - 1, 0, -1 do
-                                    if IsVehicleSeatFree(veh, i) then
-                                        freeSeat = i
-                                        break
+                                    for i=maxSeats - 1, 0, -1 do
+                                        if IsVehicleSeatFree(veh, i) then
+                                            freeSeat = i
+                                            break
+                                        end
                                     end
+                                    meterIsOpen = true
+                                    meterActive = true
+                                    lastLocation = GetEntityCoords(PlayerPedId())
+                                    SendNUIMessage({
+                                        action = "openMeter",
+                                        toggle = true,
+                                        meterData = Config.Meter
+                                    })
+                                    SendNUIMessage({
+                                        action = "toggleMeter"
+                                    })
+                                    ClearPedTasksImmediately(NpcData.Npc)
+                                    FreezeEntityPosition(NpcData.Npc, false)
+                                    TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                                    if Config.NotifyType == 'qb' then
+                                        QBCore.Functions.Notify(Lang:t("info.go_to_location"))
+                                    elseif Config.NotifyType == "okok" then
+                                        exports['okokNotify']:Alert("DRIVE TO LOCATION", Lang:t("info.go_to_location"), 3500, "info")
+                                    end 
+                                    if NpcData.NpcBlip ~= nil then
+                                        RemoveBlip(NpcData.NpcBlip)
+                                    end
+                                    GetDeliveryLocation()
+                                    NpcData.NpcTaken = true
                                 end
-
-                                meterIsOpen = true
-                                meterActive = true
-                                lastLocation = GetEntityCoords(PlayerPedId())
-                                SendNUIMessage({
-                                    action = "openMeter",
-                                    toggle = true,
-                                    meterData = Config.Meter
-                                })
-                                SendNUIMessage({
-                                    action = "toggleMeter"
-                                })
-                                ClearPedTasksImmediately(NpcData.Npc)
-                                FreezeEntityPosition(NpcData.Npc, false)
-                                TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
-                                QBCore.Functions.Notify(Lang:t("info.go_to_location"))
-                                if NpcData.NpcBlip ~= nil then
-                                    RemoveBlip(NpcData.NpcBlip)
-                                end
-                                GetDeliveryLocation()
-                                NpcData.NpcTaken = true
                             end
                         end
+                        Wait(1)
                     end
-
-                    Wait(1)
-                end
-            end)
-
-
-           end
+                end)
+            end
         else
-            QBCore.Functions.Notify(Lang:t("error.already_mission"))
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify(Lang:t("error.already_mission"))
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("YOU ARE ON A JOB", Lang:t("error.already_mission"), 3500, "error")
+            end 
         end
     else
-        QBCore.Functions.Notify(Lang:t("error.not_in_taxi"))
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t("error.not_in_taxi"))
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NOT IN CAB", Lang:t("error.not_in_taxi"), 3500, "error")
+        end 
     end
 end)
 
@@ -428,10 +590,18 @@ RegisterNetEvent('qb-taxi:client:toggleMeter', function()
                 meterIsOpen = false
             end
         else
-            QBCore.Functions.Notify(Lang:t("error.missing_meter"), 'error')
+            if Config.NotifyType == 'qb' then
+                QBCore.Functions.Notify(Lang:t("error.missing_meter"), 'error')
+            elseif Config.NotifyType == "okok" then
+                exports['okokNotify']:Alert("NO METER", Lang:t("error.missing_meter"), 3500, "error")
+            end 
         end
     else
-        QBCore.Functions.Notify(Lang:t("error.no_vehicle"), 'error')
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t("error.not_in_taxi"))
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NOT IN CAB", Lang:t("error.not_in_taxi"), 3500, "error")
+        end 
     end
 end)
 
@@ -441,7 +611,11 @@ RegisterNetEvent('qb-taxi:client:enableMeter', function()
             action = "toggleMeter"
         })
     else
-        QBCore.Functions.Notify(Lang:t("error.not_active_meter"), 'error')
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t("error.missing_meter"), 'error')
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NO METER", Lang:t("error.missing_meter"), 3500, "error")
+        end 
     end
 end)
 
@@ -453,7 +627,11 @@ RegisterNetEvent('qb-taxi:client:toggleMuis', function()
             mouseActive = true
         end
     else
-        QBCore.Functions.Notify(Lang:t("error.no_meter_sight"), 'error')
+        if Config.NotifyType == 'qb' then
+            QBCore.Functions.Notify(Lang:t("error.missing_meter"), 'error')
+        elseif Config.NotifyType == "okok" then
+            exports['okokNotify']:Alert("NO METER", Lang:t("error.missing_meter"), 3500, "error")
+        end 
     end
 end)
 
@@ -618,7 +796,6 @@ function createNpcDelieveryLocation()
         minZ = Config.PZLocations.DropLocations[NpcData.CurrentDeliver].minZ,
         maxZ = Config.PZLocations.DropLocations[NpcData.CurrentDeliver].maxZ,
     })
-
     delieveryZone:onPlayerInOut(function(isPlayerInside)
         if isPlayerInside then
             if whitelistedVehicle() and not isInsideDropZone and NpcData.NpcTaken then
@@ -663,7 +840,11 @@ function callNpcPoly()
                     ClearPedTasksImmediately(NpcData.Npc)
                     FreezeEntityPosition(NpcData.Npc, false)
                     TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
-                    QBCore.Functions.Notify(Lang:t("info.go_to_location"))
+                    if Config.NotifyType == 'qb' then
+                        QBCore.Functions.Notify(Lang:t("info.go_to_location"))
+                    elseif Config.NotifyType == "okok" then
+                        exports['okokNotify']:Alert("DRIVE CLIENT", Lang:t("info.go_to_location"), 3500, "success")
+                    end 
                     if NpcData.NpcBlip ~= nil then
                         RemoveBlip(NpcData.NpcBlip)
                     end
@@ -699,9 +880,141 @@ function dropNpcPoly()
                     SendNUIMessage({
                         action = "resetMeter"
                     })
-                    QBCore.Functions.Notify(Lang:t("info.person_was_dropped_off"), 'success')
+                    if Config.NotifyType == 'qb' then
+                        QBCore.Functions.Notify(Lang:t("info.person_was_dropped_off"), 'success')
+                    elseif Config.NotifyType == "okok" then
+                        exports['okokNotify']:Alert("CLIENT DROPPED", Lang:t("info.person_was_dropped_off"), 3500, "success")
+                    end 
                     if NpcData.DeliveryBlip ~= nil then
                         RemoveBlip(NpcData.DeliveryBlip)
+                    end
+                    Wait(200)
+                    if Config.mzskills then 
+                        local BetterXP = math.random(Config.DriverXPlow, Config.DriverXPhigh)
+                        local xpmultiple = math.random(1, 4)
+                        if xpmultiple >= 3 then
+                            chance = BetterXP
+                        elseif xpmultiple < 3 then
+                            chance = Config.DriverXPlow
+                        end
+                        exports["mz-skills"]:UpdateSkill("Driving", chance) 
+                        Wait(1000)
+                        if Config.BonusChance >= math.random(1, 100) then
+                            --Skill check call for config.menu prices on items  
+                            exports["mz-skills"]:CheckSkill("Driving", 12800, function(hasskill)
+                                if hasskill then
+                                    lvl8 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 6400, function(hasskill)
+                                if hasskill then
+                                    lvl7 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 3200, function(hasskill)
+                                if hasskill then
+                                    lvl6 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 1600, function(hasskill)
+                                if hasskill then
+                                    lvl5 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 800, function(hasskill)
+                                if hasskill then
+                                    lvl4 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 400, function(hasskill)
+                                if hasskill then
+                                    lvl3 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 200, function(hasskill)
+                                if hasskill then
+                                    lvl2 = true
+                                end
+                            end)
+                            exports["mz-skills"]:CheckSkill("Driving", 0, function(hasskill)
+                                if hasskill then
+                                    lvl1 = true
+                                end
+                            end)
+                            if lvl8 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel8')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Best service I have had, take my money!', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", "Best service I have had, take my money!", 3500, "info")
+                                end 
+                                lvl8 = false
+                            elseif lvl7 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel7')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('You could get away from law enforcement all day with driving like that!', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'You could get away from law enforcement all day with driving like that!', 3500, "info")
+                                end 
+                                lvl7 = false
+                            elseif lvl6 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel6')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Hey, can I grab your number? You got me here quick smart!', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'Hey, can I grab your number? You got me here quick smart!', 3500, "info")
+                                end 
+                                lvl6 = false
+                            elseif lvl5 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel5')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Hey, can I grab your number? You got me here quick smart!', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'Hey, can I grab your number? You got me here quick smart!', 3500, "info")
+                                end 
+                                lvl5 = false
+                            elseif lvl4 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel4')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Hey I appreciate that, thank you! Take something extra please...', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'Hey I appreciate that, thank you! Take something extra please...', 3500, "info")
+                                end 
+                                lvl4 = false
+                            elseif lvl3 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel3')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Hey I appreciate that, thank you! Take something extra please...', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'Hey I appreciate that, thank you! Take something extra please...', 3500, "info")
+                                end 
+                                lvl3 = false
+                            elseif lvl2 == true then
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel2')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Nice driving, thank you! Here is a small tip...', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'Nice driving, thank you! Here is a small tip...', 3500, "info")
+                                end 
+                                lvl2 = false
+                            elseif lvl1 == true then 
+                                TriggerServerEvent('qb-taxijob:client:NPCBonusLevel1')
+                                Wait(1500)
+                                if Config.NotifyType == 'qb' then
+                                    QBCore.Functions.Notify('Nice driving, thank you! Here is a small tip...', "info", 3500)
+                                elseif Config.NotifyType == "okok" then
+                                    exports['okokNotify']:Alert("TIP", 'Nice driving, thank you! Here is a small tip...', 3500, "info")
+                                end 
+                                lvl1 = false
+                            end
+                        end
                     end
                     local RemovePed = function(p)
                         SetTimeout(60000, function()
@@ -724,7 +1037,6 @@ function setupCabParkingLocation()
     local taxiParking = BoxZone:Create(vector3(908.62, -173.82, 74.51), 11.0, 38.2, {
         name="qb-taxi",
         heading=55,
-        --debugPoly=true
     })
 
     taxiParking:onPlayerInOut(function(isPlayerInside)
@@ -758,7 +1070,11 @@ CreateThread(function()
                     TaskLeaveVehicle(PlayerPedId(), vehicle, 0)
                     Wait(2000) -- 2 second delay just to ensure the player is out of the vehicle
                     DeleteVehicle(vehicle)
-                    QBCore.Functions.Notify(Lang:t("info.taxi_returned"), 'success')
+                    if Config.NotifyType == 'qb' then
+                        QBCore.Functions.Notify(Lang:t("info.taxi_returned"), 'success')
+                    elseif Config.NotifyType == "okok" then
+                        exports['okokNotify']:Alert("TAXI RETURNED", Lang:t("info.taxi_returned"), 3500, "info")
+                    end 
                 end
             end
         end
@@ -774,7 +1090,7 @@ CreateThread(function()
             local pos = GetEntityCoords(PlayerPedId())
             if #(pos - Config.BossMenu) < 2.0 then
                 sleep = 7
-                DrawText3D(Config.BossMenu.x, Config.BossMenu.y,Config.BossMenu.z, "~g~E~w~ - Boss Menu")
+                DrawText3D(Config.BossMenu.x, Config.BossMenu.y,Config.BossMenu.z, "~g~[E]~w~ - Boss Menu")
                 if IsControlJustReleased(0, 38) then
                    TriggerEvent('qb-bossmenu:client:OpenMenu')
                 end
