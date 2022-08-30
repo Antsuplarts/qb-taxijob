@@ -3,7 +3,7 @@ let meterStarted = false;
 const updateMeter = (meterData) => {
   $("#total-price").html("$ " + meterData.currentFare.toFixed(2));
   $("#total-distance").html(
-    (meterData.distanceTraveled / 200).toFixed(1) + " mi"
+    (meterData.distanceTraveled / 1700).toFixed(1) + " mi"
   );
 };
 
@@ -46,7 +46,7 @@ const meterToggle = () => {
 
 const openMeter = (meterData) => {
   $(".container").fadeIn(150);
-  $("#total-price-per-100m").html("$ " + meterData.defaultPrice.toFixed(2));
+  $("#total-price-per-100m").html("$ " + (meterData.defaultPrice.toFixed(2) / 4));
 };
 
 const closeMeter = () => {
