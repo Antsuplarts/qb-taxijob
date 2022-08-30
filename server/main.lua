@@ -21,10 +21,130 @@ RegisterNetEvent('qb-taxi:server:NpcPay', function(Payment)
             if randomAmount == r1 or randomAmount == r2 then Payment = Payment + math.random(10, 20) end
             Player.Functions.AddMoney('cash', Payment)
             local chance = math.random(1, 100)
-            if chance < 26 then
-                Player.Functions.AddItem("cryptostick", 1, false)
-                TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["cryptostick"], "add")
+            if Config.rarechance >= chance then
+                Player.Functions.AddItem(Config.rareitem, 1, false)
+                TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.rareitem], "add")
             end
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel1', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level1Low, Config.Level1High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel2', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level2Low, Config.Level2High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel3', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level3Low, Config.Level3High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel4', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level4Low, Config.Level4High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel5', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level5Low, Config.Level5High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel6', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level6Low, Config.Level6High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel7', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level7Low, Config.Level7High)
+            Player.Functions.AddMoney('cash', Bonus)
+        else
+            DropPlayer(src, 'Attempting To Exploit')
+        end
+    else
+        DropPlayer(src, 'Attempting To Exploit')
+    end
+end)
+
+RegisterNetEvent('qb-taxijob:client:NPCBonusLevel8', function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.PlayerData.job.name == "taxi" then
+        if NearTaxi(src) then
+            local Bonus = math.random(Config.Level8Low, Config.Level8High)
+            Player.Functions.AddMoney('cash', Bonus)
         else
             DropPlayer(src, 'Attempting To Exploit')
         end
