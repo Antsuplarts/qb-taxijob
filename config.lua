@@ -1,51 +1,57 @@
 Config = Config or {}
 
-Config.NotifyType = 'okok' -- notification type: 'qb' for qb-core standard notifications, 'okok' for okokNotify notifications
+--------------
+--QB-TAXIJOB--
+--------------
+
+Config.NotifyType = 'qb'                    -- notification type: 'qb' for qb-core standard notifications, 'okok' for okokNotify notifications
 
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- set this to false if you want to use distance checks
 
-Config.DefaultTextLocation = "left" -- left, right, top
+Config.DefaultTextLocation = "left"         -- Set to either "left", "right" or "top"
 
-Config.mzskills = true -- Set to 'false' if you do not wish to use mz-skills XP integration
+Config.mzskills = true                      -- Set to 'false' if you do not wish to use mz-skills XP integration
+-- if Config.mzskills = true, then the following parameters apply:
+Config.DriverXPlow = 1                      -- Lowest possible XP given from successful NPC drop.
+Config.DriverXPhigh = 3                     -- Highest possible XP given from successful NPC drop.
 
 Config.Meter = {
     ["defaultPrice"] = 10.00
 }
 
---Rare item drop
-Config.rareitem = 'cryptostick' -- Rare item received by player
-Config.rarechance = 10 -- Percentage chance of additional player drop upon completion of client taxi mission (set to 0 to disable)
+--Rare item drop parameters
+Config.rareitem = 'cryptostick'             -- Rare item received by player
+Config.rarechance = 25                      -- Percentage chance of additional player drop upon completion of client taxi mission (set to 0 to disable)
 
--- if the above is set to 'true', the following parameters apply:
-Config.DriverXPlow = 1 -- Lowest possible XP given from successful NPC drop.
-Config.DriverXPhigh = 3 -- Highest possible XP given from successful NPC drop.
-
--- BONUS PAYMENT
-Config.BonusChance = 50 -- Percentage chance that the client pays the driver a bonus (to disable set to 0). If a bonus is given, the following parameters apply:
+--if Config.mzskills = true, then the following bonus payment parameters apply:
+------------------
+-- BONUS PAYMENT--
+------------------
+Config.BonusChance = 100                    -- Percentage chance that the client pays the driver a bonus (to disable set to 0).
 --Level 1
-Config.Level1Low = 1
-Config.Level1High = 5
+Config.Level1Low = 1                        -- Lowest level 1 "Driving" XP bonus awarded.
+Config.Level1High = 5                       -- Highest level 1 "Driving" XP bonus awarded.
 --Level 2
-Config.Level2Low = 3
-Config.Level2High = 8
---Level 3
-Config.Level3Low = 5
-Config.Level3High = 12
+Config.Level2Low = 3                        -- Lowest level 2 "Driving" XP bonus awarded.
+Config.Level2High = 8                       -- Highest level 2 "Driving" XP bonus awarded.
+--Level 3   
+Config.Level3Low = 5                        -- Lowest level 3 "Driving" XP bonus awarded.
+Config.Level3High = 12                      -- Highest level 3 "Driving" XP bonus awarded.
 --Level 4
-Config.Level4Low = 8
-Config.Level4High = 16
+Config.Level4Low = 8                        -- Lowest level 4 "Driving" XP bonus awarded.
+Config.Level4High = 16                      -- Highest level 4 "Driving" XP bonus awarded.
 --Level 5
-Config.Level5Low = 10
-Config.Level5High = 18
+Config.Level5Low = 10                       -- Lowest level 5 "Driving" XP bonus awarded.
+Config.Level5High = 18                      -- Highest level 5 "Driving" XP bonus awarded.
 --Level 6
-Config.Level6Low = 13
-Config.Level6High = 22
+Config.Level6Low = 13                       -- Lowest level 6 "Driving" XP bonus awarded.
+Config.Level6High = 22                      -- Highest level 6 "Driving" XP bonus awarded.
 --Level 7
-Config.Level7Low = 15
-Config.Level7High = 26
+Config.Level7Low = 15                       -- Lowest level 7 "Driving" XP bonus awarded.
+Config.Level7High = 26                      -- Highest level 7 "Driving" XP bonus awarded.
 --Level 8
-Config.Level8Low = 18
-Config.Level8High = 30
+Config.Level8Low = 18                       -- Lowest level 8 "Driving" XP bonus awarded.
+Config.Level8High = 30                      -- Highest level 8 "Driving" XP bonus awarded.
 
 Config.AllowedVehicles = {
    [1] = {model = "taxi", label = Lang:t("info.taxi_label_1")},
