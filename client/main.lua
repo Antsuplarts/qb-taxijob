@@ -426,7 +426,7 @@ RegisterNetEvent("qb-taxi:client:TakeVehicle", function(data)
         local coords = vector3(Config.CabSpawns[SpawnPoint].x,Config.CabSpawns[SpawnPoint].y,Config.CabSpawns[SpawnPoint].z)
         local CanSpawn = IsSpawnPointClear(coords, 2.0)
         if CanSpawn then
-            QBCore.Functions.SpawnVehicle(netId)
+            QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
                 local veh = NetToVeh(netId)
                 SetVehicleNumberPlateText(veh, "TAXI"..tostring(math.random(1000, 9999)))
                 exports['LegacyFuel']:SetFuel(veh, 100.0)
